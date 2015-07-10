@@ -30,7 +30,7 @@ def init():
     client = MongoClient("localhost", 27017)
     for i in range(1, DB_COUNT+1):
         name = DBNAME + str(i)
-        dbs[name] = client[name].data
+        dbs[name] = client[name]
 
 init()
 
@@ -43,6 +43,7 @@ def hello_world():
 @app.route('/get_replay')
 def web_get_replay():
     replay_id = request.args.get("replay_id", "")
+    replay_id = replay_id.encode("utf8")
     ret = get_replay(replay_id)
     if not ret:
         return jsonify({})
